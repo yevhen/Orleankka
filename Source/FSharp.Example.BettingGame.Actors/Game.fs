@@ -1,7 +1,6 @@
 ﻿module Actors.Game
 
 open Orleankka
-open Orleankka.CSharp
 open Orleankka.FSharp
 open Domain.Game
 open Contracts

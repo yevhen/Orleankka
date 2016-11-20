@@ -1,7 +1,6 @@
 ﻿namespace Contracts
    
 open Orleankka
-open Orleankka.CSharp
 
 type IGameActor =
    inherit IActor
