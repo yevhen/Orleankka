@@ -5,32 +5,22 @@ open Orleankka.CSharp
 open Orleankka.FSharp
 open Domain.Game
 open Contracts
+open System
 
-type Event =
-   | ScoreChanged of Score
-   | GameStatusChanged of Status
-   | OddsChanged of Odds
-
-type State = {
-   Status: Status
-   Score: Score
-   Odds: Odds
-   Bets: Bet[]
-}
-
-let handleCommand state command = 
-   match command with
-   | ChangeScore(home,away) -> ScoreChanged({ Home = home; Away = away })
-   | _                      -> failwith ""
-
-
-[<ActorType("game")>]
 type GameActor() =
-   inherit Actor<obj>()
+   inherit Actor<obj>()  
+   
+   let mutable _state = GameState.Zero()    
 
    override this.Receive message = task {      
       match message with
-      | :? Command as command -> return nothing
-      | :? Query as query     -> return nothing
+      | :? Command as command -> let event = handleCommand(_state, command)
+                                 _state <- apply(_state, event)
+                                 return nothing
+      
+      | :? Query as query     -> return response(_state)
+      
       | _                     -> return nothing
    }
+
+   interface IGameActor
