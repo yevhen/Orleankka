@@ -1,13 +1,14 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+
+using Orleankka.Services;
+using Orleankka.Utility;
 
 using Orleans;
 
-namespace Orleankka.CSharp
+namespace Orleankka
 {
-    using Services;
-    using Utility;
-
     public interface IActor
     {}
 
@@ -56,13 +57,7 @@ namespace Orleankka.CSharp
 
         public virtual Task OnReminder(string id)
         {
-            var message = $"Override {"OnReminder"}() method in class {GetType()} to implement corresponding behavior";
-            throw new NotImplementedException(message);
-        }
-
-        public virtual Task OnTimer(string id, object state)
-        {
-            var message = $"Override {"OnTimer"}() method in class {GetType()} to implement corresponding behavior";
+            var message = $"Override {nameof(OnReminder)}() method in class {GetType()} to implement corresponding behavior";
             throw new NotImplementedException(message);
         }
 
